@@ -3,15 +3,14 @@ import useGenres, { Genre } from "../hooks/useGenre";
 import GenreListSkeleton from "./GenreListSkeleton";
 
 interface Props {
-  selectedGenreId?: number;
+  selectedGenre?: Genre | null;
   onSelectGenre: (genre: Genre) => void;
 }
 
-const GenreList = ({ selectedGenreId, onSelectGenre }: Props) => {
+const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
   const { data, error, isLoading } = useGenres();
 
   if (error) return null;
-  console.log(selectedGenreId);
 
   if (isLoading)
     // return (
@@ -35,7 +34,7 @@ const GenreList = ({ selectedGenreId, onSelectGenre }: Props) => {
           ></Image>
           <Button
             colorScheme={"green"}
-            variant={datum.id == selectedGenreId ? "solid" : "link"}
+            variant={datum.id == selectedGenre?.id ? "solid" : "link"}
             onClick={() => onSelectGenre(datum)}
           >
             {datum.name}
