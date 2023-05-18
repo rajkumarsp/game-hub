@@ -1,3 +1,4 @@
+import { Genre } from "./useGenre";
 import useRemoteData from "./useRemoteData";
 
 export interface Platform{
@@ -14,6 +15,6 @@ export interface Game {
     metacritic:number
   }
   
-const useGames = ()=> useRemoteData<Game>('/games')
+const useGames = (selectedGenre: Genre | null)=> useRemoteData<Game>('/games', {params:{genres:selectedGenre?.id}}, [selectedGenre?.id])
   
 export default useGames

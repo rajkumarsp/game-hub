@@ -1,8 +1,12 @@
 import { Button, HStack, Image } from "@chakra-ui/react";
-import useGenres from "../hooks/useGenre";
+import useGenres, { Genre } from "../hooks/useGenre";
 import GenreListSkeleton from "./GenreListSkeleton";
 
-const GenreList = () => {
+interface Props {
+  onSelectGenre: (genre: Genre) => void;
+}
+
+const GenreList = ({ onSelectGenre }: Props) => {
   const { data, error, isLoading } = useGenres();
 
   if (error) return null;
@@ -27,7 +31,9 @@ const GenreList = () => {
             boxSize="40px"
             borderRadius={"5px"}
           ></Image>
-          <Button variant="link">{datum.name}</Button>
+          <Button variant="link" onClick={() => onSelectGenre(datum)}>
+            {datum.name}
+          </Button>
         </HStack>
       ))}
     </>
