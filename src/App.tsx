@@ -17,6 +17,7 @@ const App = () => {
         base: `"nav" "main"`,
         lg: `"nav nav" "aside main" `,
       }}
+      templateColumns={{ base: `1fr`, lg: "250px 1fr" }}
     >
       <GridItem area="nav">
         <NavBar></NavBar>
@@ -26,7 +27,10 @@ const App = () => {
       </GridItem>
       <Show above="lg">
         <GridItem area="aside">
-          <GenreList onSelectGenre={onSelectGenre}></GenreList>
+          <GenreList
+            onSelectGenre={onSelectGenre}
+            selectedGenreId={selectedGenre?.id}
+          ></GenreList>
         </GridItem>
       </Show>
     </Grid>
