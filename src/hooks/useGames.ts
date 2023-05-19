@@ -17,7 +17,10 @@ export interface Game {
   
 const useGames = (gameQuery: GameQuery) => 
 useRemoteData<Game>('/games', 
-{params:{genres:gameQuery.selectedGenre?.id, platforms:gameQuery.selectedPlatform?.id, ordering:gameQuery.orderBy}}, 
+{params:{genres:gameQuery.selectedGenre?.id, 
+  platforms:gameQuery.selectedPlatform?.id, 
+  ordering:gameQuery.orderBy,
+  search:gameQuery.searchTerm}}, 
 [gameQuery])
   
 export default useGames

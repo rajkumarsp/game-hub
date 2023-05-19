@@ -12,6 +12,7 @@ export interface GameQuery {
   selectedGenre: Genre | null;
   selectedPlatform: Platform | null;
   orderBy: string;
+  searchTerm: string;
 }
 
 const App = () => {
@@ -26,6 +27,11 @@ const App = () => {
   const onChangeOrderBy = (orderBy: string) =>
     setGameQuery({ ...gameQuery, orderBy: orderBy });
 
+  const onSearch = (searchTerm: string) => {
+    console.log(`searchTerm = ${searchTerm}`);
+    setGameQuery({ ...gameQuery, searchTerm: searchTerm });
+  };
+
   return (
     <Grid
       templateAreas={{
@@ -35,7 +41,7 @@ const App = () => {
       templateColumns={{ base: `1fr`, lg: "250px 1fr" }}
     >
       <GridItem area="nav">
-        <NavBar></NavBar>
+        <NavBar onSearch={(searchTerm) => onSearch(searchTerm)}></NavBar>
       </GridItem>
 
       <Show above="lg">
