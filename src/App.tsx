@@ -1,4 +1,4 @@
-import { Grid, GridItem, Show } from "@chakra-ui/react";
+import { Box, Grid, GridItem, Show } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
@@ -7,15 +7,24 @@ import { Genre } from "./hooks/useGenre";
 import PlatformSelector from "./components/PlatformSelector";
 import { Platform } from "./hooks/useGames";
 
-const App = () => {
-  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-  const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(
-    null
-  );
+export interface GameQuery {
+  selectedGenre: Genre | null;
+  selectedPlatform: Platform | null;
+}
 
-  const onSelectGenre = (genre: Genre) => setSelectedGenre(genre);
+const App = () => {
+  const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
+
+  // const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+  // const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(
+  //   null
+  // );
+
+  const onSelectGenre = (genre: Genre) =>
+    setGameQuery({ ...gameQuery, selectedGenre: genre });
+
   const onChangePlatform = (platform: Platform) =>
-    setSelectedPlatform(platform);
+    setGameQuery({ ...gameQuery, selectedPlatform: platform });
 
   return (
     <Grid
@@ -32,21 +41,20 @@ const App = () => {
       <Show above="lg">
         <GridItem area="aside">
           <GenreList
+            selectedGenre={gameQuery.selectedGenre}
             onSelectGenre={onSelectGenre}
-            selectedGenre={selectedGenre}
           ></GenreList>
         </GridItem>
       </Show>
 
       <GridItem area="main">
-        <PlatformSelector
-          selectedPlatform={selectedPlatform}
-          onChangePlatform={(platform) => onChangePlatform(platform)}
-        />
-        <GameGrid
-          selectedGenre={selectedGenre}
-          selectedPlatform={selectedPlatform}
-        />
+        <Box marginBottom={2}>
+          <PlatformSelector
+            selectedPlatform={gameQuery.selectedPlatform}
+            onChangePlatform={(platform) => onChangePlatform(platform)}
+          />
+        </Box>
+        <GameGrid gameQuery={gameQuery} />
       </GridItem>
     </Grid>
   );
